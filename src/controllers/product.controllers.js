@@ -21,13 +21,19 @@ export const getProducts = async (req, res) => {
       lisProducts = products;
     }
 
+    const [products] = await pool.query("SELECT * FROM product");
+
     if (lisProducts.length === 0) {
       return res.status(204).json({ msg: "Products not found" });
     }
 
-    return res
-      .status(200)
-      .json({ msg: "Products fetched successfully", lisProducts });
+    return res.status(200).json({
+      msg: "Products fetched successfully",
+      count: products.length,
+      limit: Number(limit) || 10,
+      offset: Number(offset) || 0,
+      lisProducts,
+    });
   } catch (error) {
     return res
       .status(500)
