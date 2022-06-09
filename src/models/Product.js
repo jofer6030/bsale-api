@@ -48,7 +48,7 @@ export class Product {
 
   static async getProductsByCategoryOrder(category, order, limit, offset) {
     const [products] = await pool.query(
-      `SELECT p.id,p.name,p.url_image,p.price,p.discount,c.name FROM product p JOIN category c ON p.category=c.id WHERE p.category = ? ORDER BY p.name ${order} LIMIT ? OFFSET ?`,
+      `SELECT p.id,p.name,p.url_image,p.price,p.discount,c.name as category FROM product p JOIN category c ON p.category=c.id WHERE p.category = ? ORDER BY p.name ${order} LIMIT ? OFFSET ?`,
       [category, Number(limit) || 10, Number(offset) || 0]
     );
     return products;
