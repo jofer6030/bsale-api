@@ -103,19 +103,19 @@ REST API para el listado de productos, esto comprende:
   "products": [
     {
       "id": 37,
-      "productName": "COCA COLA ZERO DESECHABLE",
+      "name": "COCA COLA ZERO DESECHABLE",
       "url_image": "https://dojiw2m9tvv09.cloudfront.net11132product/cocazero9766.jpg",
       "price": 1490,
       "discount": 0,
-      "name": "bebida"
+      "category": "bebida"
     },
     {
       "id": 48,
-      "productName": "SPRITE 1 1/2 Lts",
+      "name": "SPRITE 1 1/2 Lts",
       "url_image": "https://dojiw2m9tvv09.cloudfront.net11132product/sprite-lata-33cl5575.jpg",
       "price": 1500,
       "discount": 0,
-      "name": "bebida"
+      "category": "bebida"
     }
   ]
 }

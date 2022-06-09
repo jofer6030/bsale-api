@@ -32,7 +32,7 @@ export class Product {
 
   static async getProductsByCategoryTotal(category) {
     const [products] = await pool.query(
-      "SELECT p.id,p.name,p.url_image,p.price,p.discount,c.name FROM product p JOIN category c ON p.category=c.id WHERE p.category = ?",
+      "SELECT * FROM product p JOIN category c ON p.category=c.id WHERE p.category = ?",
       [category]
     );
     return products.length;
