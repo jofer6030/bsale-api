@@ -1,38 +1,31 @@
-import { promisePool as pool } from "../config/dbConnect";
+import { Product } from "../models/Product";
 
 export const getProducts = async (req, res) => {
-  const { search, limit, offset } = req.query;
   let lisProducts;
+  const { search, limit, offset, order } = req.query;
   try {
     if (limit) {
-      const [products] = await pool.query(
-        "SELECT * FROM product LIMIT ? OFFSET ?",
-        [Number(limit), Number(offset) || 0]
-      );
-      lisProducts = products;
+      lisProducts = await new Product.getProductsLimit(limit, offset);
     } else if (search) {
-      const [products] = await pool.query(
-        "SELECT * FROM product WHERE name REGEXP ?",
-        [`^${search}`]
-      );
-      lisProducts = products;
+      lisProducts = await new Product.getProductsSearch(search, limit, offset);
+    } else if (order) {
+      lisProducts = await new Product.getProductsOrder(order, limit, offset);
     } else {
-      const [products] = await pool.query("SELECT * FROM product LIMIT 10");
-      lisProducts = products;
+      lisProducts = await new Product.getProductsAll();
     }
-
-    const [products] = await pool.query("SELECT * FROM product");
 
     if (lisProducts.length === 0) {
       return res.status(204).json({ msg: "Products not found" });
     }
 
+    const totalProducts = await new Product.getTotalProducts();
+
     return res.status(200).json({
       msg: "Products fetched successfully",
-      count: products.length,
+      count: totalProducts,
       limit: Number(limit) || 10,
       offset: Number(offset) || 0,
-      lisProducts,
+      products: lisProducts,
     });
   } catch (error) {
     return res
@@ -42,18 +35,42 @@ export const getProducts = async (req, res) => {
 };
 
 export const getProductsByCategory = async (req, res) => {
+  let lisProducts;
   const { category } = req;
+  const { limit, offset, order } = req.query;
+
   try {
-    const [products] = await pool.query(
-      "SELECT p.id,p.name,p.url_image,p.price,p.discount,c.* FROM product p JOIN category c ON p.category=c.id WHERE p.category = ?",
-      [category]
-    );
-    if (products.length === 0) {
+    if (limit) {
+      lisProducts = await new Product.getProductsByCategoryLimit(
+        category,
+        limit,
+        offset
+      );
+    } else if (order) {
+      lisProducts = await new Product.getProductsByCategoryOrder(
+        category,
+        order,
+        limit,
+        offset
+      );
+    } else {
+      lisProducts = await new Product.getProductsByCategoryAll(category);
+    }
+    if (lisProducts.length === 0) {
       return res.status(204).json({ msg: "Products not found" });
     }
-    res
-      .status(200)
-      .json({ msg: "Products fetched by category successfully", products });
+
+    const totalProductsByCategory =
+      await new Product.getProductsByCategoryTotal(category);
+
+    res.status(200).json({
+      msg: "Products fetched by category successfully",
+      categoryId: category,
+      count: totalProductsByCategory,
+      limit: Number(limit) || 10,
+      offset: Number(offset) || 0,
+      products: lisProducts,
+    });
   } catch (error) {
     res
       .status(500)

@@ -39,12 +39,14 @@ REST API para el listado de productos, esto comprende:
 - **limit** : Limita la cantidad de items de una respuesta JSON, por default es _10_.
 - **offset** : Desplaza el inicio de la lista de productos, por default es _0_.
 - **search** : Busca un producto por nombre, por default es _null_.
+- **order** : Ordena la lista de productos por nombre, por default es _null_.
 
 ##### Ejemplos
 
 - `GET /api/vi/product/list?limit=10&offset=0`
 - `GET /api/vi/product/list?search=pisco`
 - `GET /api/vi/product/list?search=pisco&limit=10&offset=0`
+- `GET /api/vi/product/list?order=desc`
 
 #### Respuesta
 
@@ -54,7 +56,7 @@ REST API para el listado de productos, esto comprende:
   "count": 57,
   "limit": 2,
   "offset": 0,
-  "lisProducts": [
+  "products": [
     {
       "id": 5,
       "name": "ENERGETICA MR BIG",
@@ -79,5 +81,42 @@ REST API para el listado de productos, esto comprende:
 
 `GET /api/vi/product/list/{category}` retorna la lista de productos por nombre de la categoría.
 
+#### Query Parameters
+
 - **limit** : Limita la cantidad de items de una respuesta JSON, por default es _10_.
 - **offset** : Desplaza el inicio de la lista de productos, por default es _0_.
+- **order** : Ordena la lista de productos por nombre, por default es _null_.
+
+##### Ejemplos
+
+- `GET /api/vi/product/list/pisco`
+- `GET /api/vi/product/list/bebida?limit=10&offset=0`
+- `GET /api/vi/product/list/bebida?order=asc`
+
+```json
+{
+  "msg": "Products fetched by category successfully",
+  "categoryId": 4,
+  "count": 7,
+  "limit": 2,
+  "offset": 0,
+  "products": [
+    {
+      "id": 37,
+      "productName": "COCA COLA ZERO DESECHABLE",
+      "url_image": "https://dojiw2m9tvv09.cloudfront.net11132product/cocazero9766.jpg",
+      "price": 1490,
+      "discount": 0,
+      "name": "bebida"
+    },
+    {
+      "id": 48,
+      "productName": "SPRITE 1 1/2 Lts",
+      "url_image": "https://dojiw2m9tvv09.cloudfront.net11132product/sprite-lata-33cl5575.jpg",
+      "price": 1500,
+      "discount": 0,
+      "name": "bebida"
+    }
+  ]
+}
+```
