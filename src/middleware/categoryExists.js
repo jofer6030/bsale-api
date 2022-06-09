@@ -10,7 +10,7 @@ export const categoryExists = async (req, res, next) => {
     if (categories.length === 0) {
       return res.status(404).json({ msg: "Category not found" });
     }
-    req.category = categories[0].id;
+    req.category = categories[0];
     next();
   } catch (error) {
     res

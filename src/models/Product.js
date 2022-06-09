@@ -6,15 +6,10 @@ export class Product {
     return products.length;
   }
 
-  static async getProductsAll() {
-    const [products] = await pool.query("SELECT * FROM product LIMIT 10");
-    return products;
-  }
-
-  static async getProductsLimit(limit, offset) {
+  static async getProductsAll(limit, offset) {
     const [products] = await pool.query(
       "SELECT * FROM product LIMIT ? OFFSET ?",
-      [Number(limit), Number(offset) || 0]
+      [Number(limit) || 10, Number(offset) || 0]
     );
     return products;
   }
@@ -35,30 +30,25 @@ export class Product {
     return products;
   }
 
-  static async getProductsByCategoryLimit(category, limit, offset) {
-    const [products] = await pool.query(
-      "SELECT p.id,p.name as productName,p.url_image,p.price,p.discount,c.name FROM product p JOIN category c ON p.category=c.id WHERE p.category = ? LIMIT ? OFFSET ?",
-      [category, Number(limit), Number(offset) || 0]
-    );
-    return products;
-  }
-  static async getProductsByCategoryAll(category) {
-    const [products] = await pool.query(
-      "SELECT p.id,p.name as productName,p.url_image,p.price,p.discount,c.name as category FROM product p JOIN category c ON p.category=c.id WHERE p.category = ? LIMIT 10",
-      [category]
-    );
-    return products;
-  }
   static async getProductsByCategoryTotal(category) {
     const [products] = await pool.query(
-      "SELECT p.id,p.name as productName,p.url_image,p.price,p.discount,c.name FROM product p JOIN category c ON p.category=c.id WHERE p.category = ?",
+      "SELECT p.id,p.name,p.url_image,p.price,p.discount,c.name FROM product p JOIN category c ON p.category=c.id WHERE p.category = ?",
       [category]
     );
     return products.length;
   }
+
+  static async getProductsByCategoryAll(category, limit, offset) {
+    const [products] = await pool.query(
+      "SELECT p.id,p.name,p.url_image,p.price,p.discount,c.name as category FROM product p JOIN category c ON p.category=c.id WHERE p.category = ? LIMIT ? OFFSET ?",
+      [category, Number(limit) || 10, Number(offset) || 0]
+    );
+    return products;
+  }
+
   static async getProductsByCategoryOrder(category, order, limit, offset) {
     const [products] = await pool.query(
-      `SELECT p.id,p.name as productName,p.url_image,p.price,p.discount,c.name FROM product p JOIN category c ON p.category=c.id WHERE p.category = ? ORDER BY p.name ${order} LIMIT ? OFFSET ?`,
+      `SELECT p.id,p.name,p.url_image,p.price,p.discount,c.name FROM product p JOIN category c ON p.category=c.id WHERE p.category = ? ORDER BY p.name ${order} LIMIT ? OFFSET ?`,
       [category, Number(limit) || 10, Number(offset) || 0]
     );
     return products;

@@ -4,21 +4,19 @@ export const getProducts = async (req, res) => {
   let lisProducts;
   const { search, limit, offset, order } = req.query;
   try {
-    if (limit) {
-      lisProducts = await new Product.getProductsLimit(limit, offset);
-    } else if (search) {
-      lisProducts = await new Product.getProductsSearch(search, limit, offset);
+    if (search) {
+      lisProducts = await Product.getProductsSearch(search, limit, offset);
     } else if (order) {
-      lisProducts = await new Product.getProductsOrder(order, limit, offset);
+      lisProducts = await Product.getProductsOrder(order, limit, offset);
     } else {
-      lisProducts = await new Product.getProductsAll();
+      lisProducts = await Product.getProductsAll(limit, offset);
     }
 
     if (lisProducts.length === 0) {
       return res.status(204).json({ msg: "Products not found" });
     }
 
-    const totalProducts = await new Product.getTotalProducts();
+    const totalProducts = await Product.getTotalProducts();
 
     return res.status(200).json({
       msg: "Products fetched successfully",
@@ -40,32 +38,31 @@ export const getProductsByCategory = async (req, res) => {
   const { limit, offset, order } = req.query;
 
   try {
-    if (limit) {
-      lisProducts = await new Product.getProductsByCategoryLimit(
-        category,
-        limit,
-        offset
-      );
-    } else if (order) {
-      lisProducts = await new Product.getProductsByCategoryOrder(
-        category,
+    if (order) {
+      lisProducts = await Product.getProductsByCategoryOrder(
+        category.id,
         order,
         limit,
         offset
       );
     } else {
-      lisProducts = await new Product.getProductsByCategoryAll(category);
+      lisProducts = await Product.getProductsByCategoryAll(
+        category.id,
+        limit,
+        offset
+      );
     }
     if (lisProducts.length === 0) {
       return res.status(204).json({ msg: "Products not found" });
     }
 
-    const totalProductsByCategory =
-      await new Product.getProductsByCategoryTotal(category);
+    const totalProductsByCategory = await Product.getProductsByCategoryTotal(
+      category.id
+    );
 
     res.status(200).json({
       msg: "Products fetched by category successfully",
-      categoryId: category,
+      categoryId: category.id,
       count: totalProductsByCategory,
       limit: Number(limit) || 10,
       offset: Number(offset) || 0,
