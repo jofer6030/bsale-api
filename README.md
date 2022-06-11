@@ -4,10 +4,7 @@ REST API para el listado de productos, esto comprende:
 
 - Listado por categoria del producto
 - Buscador por nombre del producto
-- Filtrado por atributos del producto:
-  - Intervalo de Precios
-  - Productos con porcentaje de descuento
-- Orden y paginacion de producto
+- Orden de productos por precio o nombre
 
 ## Estructura JSON de Productos
 
@@ -38,6 +35,7 @@ REST API para el listado de productos, esto comprende:
 - **offset** : Desplaza el inicio de la lista de productos, por default es _0_.
 - **search** : Busca un producto por nombre, por default es _null_.
 - **order** : Ordena la lista de productos por nombre, por default es _null_.
+- **price** : Ordena la lista de productos por precio, por default es _null_.
 
 ##### Ejemplos
 
@@ -84,6 +82,7 @@ REST API para el listado de productos, esto comprende:
 - **limit** : Limita la cantidad de items de una respuesta JSON, por default es _10_.
 - **offset** : Desplaza el inicio de la lista de productos, por default es _0_.
 - **order** : Ordena la lista de productos por nombre, por default es _null_.
+- **price** : Ordena la lista de productos por precio, por default es _null_.
 
 ##### Ejemplos
 
