@@ -32,7 +32,7 @@ export class Product {
 
   static async getProductsPrice(price, limit, offset) {
     const [products] = await pool.query(
-      `SELECT * FROM product ORDER BY price ${price} LIMIT ? OFFSET ?`,
+      `SELECT *,(p.price-(p.price*p.discount/100)) as original_price FROM product p ORDER BY original_price ${price} LIMIT ? OFFSET ?`,
       [Number(limit) || 10, Number(offset) || 0]
     );
     return products;
