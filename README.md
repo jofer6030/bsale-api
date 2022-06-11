@@ -9,8 +9,6 @@ REST API para el listado de productos, esto comprende:
   - Productos con porcentaje de descuento
 - Orden y paginacion de producto
 
-> Base URL `https://backend-api-bsale.herokuapp.com`
-
 ## Estructura JSON de Productos
 
 ```json

@@ -2,12 +2,14 @@ import { Product } from "../models/Product";
 
 export const getProducts = async (req, res) => {
   let lisProducts;
-  const { search, limit, offset, order } = req.query;
+  const { search, limit, offset, order, price } = req.query;
   try {
     if (search) {
       lisProducts = await Product.getProductsSearch(search, limit, offset);
     } else if (order) {
       lisProducts = await Product.getProductsOrder(order, limit, offset);
+    } else if (price) {
+      lisProducts = await Product.getProductsPrice(price, limit, offset);
     } else {
       lisProducts = await Product.getProductsAll(limit, offset);
     }

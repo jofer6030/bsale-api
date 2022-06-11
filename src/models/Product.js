@@ -30,6 +30,14 @@ export class Product {
     return products;
   }
 
+  static async getProductsPrice(price, limit, offset) {
+    const [products] = await pool.query(
+      `SELECT * FROM product ORDER BY price ${price} LIMIT ? OFFSET ?`,
+      [Number(limit) || 10, Number(offset) || 0]
+    );
+    return products;
+  }
+
   static async getProductsByCategoryTotal(category) {
     const [products] = await pool.query(
       "SELECT * FROM product p JOIN category c ON p.category=c.id WHERE p.category = ?",
