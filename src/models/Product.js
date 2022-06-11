@@ -61,4 +61,11 @@ export class Product {
     );
     return products;
   }
+  static async getProductsByCategoryPrice(category, price, limit, offset) {
+    const [products] = await pool.query(
+      `SELECT p.id,p.name,p.url_image,p.price,p.discount,(p.price-(p.price*p.discount/100)) as original_price,c.name as category FROM product p JOIN category c ON p.category=c.id WHERE p.category = ? ORDER BY original_price ${price} LIMIT ? OFFSET ?`,
+      [category, Number(limit) || 10, Number(offset) || 0]
+    );
+    return products;
+  }
 }

@@ -37,13 +37,20 @@ export const getProducts = async (req, res) => {
 export const getProductsByCategory = async (req, res) => {
   let lisProducts;
   const { category } = req;
-  const { limit, offset, order } = req.query;
+  const { limit, offset, order, price } = req.query;
 
   try {
     if (order) {
       lisProducts = await Product.getProductsByCategoryOrder(
         category.id,
         order,
+        limit,
+        offset
+      );
+    } else if (price) {
+      lisProducts = await Product.getProductsByCategoryPrice(
+        category.id,
+        price,
         limit,
         offset
       );
