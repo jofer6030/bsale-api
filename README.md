@@ -27,7 +27,7 @@ REST API para el listado de productos, esto comprende:
 
 ### GET lista de productos
 
-`GET /api/vi/product/list` retorna la lista de productos.
+`GET /api/v1/product/list` retorna la lista de productos.
 
 #### Query Parameters
 
@@ -39,10 +39,10 @@ REST API para el listado de productos, esto comprende:
 
 ##### Ejemplos
 
-- `GET /api/vi/product/list?limit=10&offset=0`
-- `GET /api/vi/product/list?search=pisco`
-- `GET /api/vi/product/list?search=pisco&limit=10&offset=0`
-- `GET /api/vi/product/list?order=desc`
+- `GET /api/v1/product/list?limit=10&offset=0`
+- `GET /api/v1/product/list?search=pisco`
+- `GET /api/v1/product/list?search=pisco&limit=10&offset=0`
+- `GET /api/v1/product/list?order=desc`
 
 #### Respuesta
 
@@ -75,7 +75,7 @@ REST API para el listado de productos, esto comprende:
 
 ### GET lista de productos por categoria
 
-`GET /api/vi/product/list/{category}` retorna la lista de productos por nombre de la categoría.
+`GET /api/v1/product/list/{category}` retorna la lista de productos por nombre de la categoría.
 
 #### Query Parameters
 
@@ -86,9 +86,9 @@ REST API para el listado de productos, esto comprende:
 
 ##### Ejemplos
 
-- `GET /api/vi/product/list/pisco`
-- `GET /api/vi/product/list/bebida?limit=10&offset=0`
-- `GET /api/vi/product/list/bebida?order=asc`
+- `GET /api/v1/product/list/pisco`
+- `GET /api/v1/product/list/bebida?limit=10&offset=0`
+- `GET /api/v1/product/list/bebida?order=asc`
 
 ```json
 {
